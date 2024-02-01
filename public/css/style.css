@@ -1,0 +1,161 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/*Navbar style*/
+.navbar{
+    background-color: white;
+}
+.container{
+    flex: 1;
+}
+.bi-compass
+{
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link
+{
+    color: black !important;
+}
+
+/*footer style*/
+.f-container
+{
+    text-decoration: none;
+    display: flex;
+    height: 6rem;
+    width: 100vw;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #8b8b8b;
+}
+.f-social, .f-company
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-social i
+{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+.f-terms{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.f-terms a{
+     text-decoration: none;
+     color: #222222;
+}
+
+.f-terms a:hover{
+    text-decoration: underline;
+}
+
+
+/* index page code*/
+.margin-top
+{
+    margin-top: 3rem !important;
+    margin-bottom: 3rem;
+}
+.listing-card{
+    border : none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top
+{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-body
+{
+    padding: 0 !important;
+}
+.card-text 
+{
+    font-weight: 400 !important;
+}
+.decoration{
+    text-decoration: none;
+}
+.card-img-overlay
+{
+    opacity: 0;
+}
+.card-img-overlay:hover
+{
+    opacity: 0.2;
+    background-color: white;
+}
+
+/* show page code*/
+.btn-primary
+{
+    background-color: #fe424d !important;
+}
+.btn-danger
+{
+    background-color: black!important;
+    color: white !important;
+    margin-left: 1rem ;
+}
+
+.listing-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column !important;
+    margin-top: 4rem;
+}
+
+.listing-img {
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.listing-details {
+    margin-top: 15px;
+}
+
+.btn-container {
+    margin-top: 15px;
+}
+
+
+/* Responsive styles */
+@media (min-width: 576px) {
+    .listing-container {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .listing-img {
+        width: 80%;
+    }
+
+}
+
+.form-select
+{
+    margin-top: -0.5rem;
+}

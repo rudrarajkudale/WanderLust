@@ -1,0 +1,199 @@
+<% layout("layout/boilerplate") %>
+<style>
+    .contain-filter{
+        display: flex;
+        align-items: center;
+    }
+    .filters{
+        display: flex;
+        align-items: center;
+        overflow-x: auto; 
+        white-space: nowrap; 
+        width: 60vw;
+    }
+    .filter{
+        text-align: center;
+        opacity: 0.7;
+        margin-right: 2.5rem;
+        margin-top: 2rem;
+        font-size: 0.6 rem;
+        display: inline-block;
+        cursor: pointer;
+        color: black;
+    }
+    .filter button{
+        border: none;
+        background-color: white;
+    }
+
+    .buttonClicked
+    {
+        opacity: 1;
+    }
+    .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter p {
+        font-size: 0.8rem;
+    }
+    #GST
+    {
+        display: none;
+    }
+    #price-toggle{
+        border: 2px solid #fe424d;
+        height: 3rem;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        margin-left: 3rem;
+        margin-top: 0.5rem;
+        color: #fe424d;
+    }
+    .filters::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    .filters::-webkit-scrollbar-thumb {
+        background-color: #fe424d;
+        border-radius: 6px;
+    }
+
+    .filters::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+        border-radius: 6px;
+    }
+    #price
+    {
+        display: inline;
+    }
+</style>
+<div class="contain-filter">
+    <div class="filters ms-3">
+        <a href="/listings">
+            <div class="filter">
+                <button><i class="fa-solid fa-earth-americas"></i></button>
+                <p>All</p>
+            </div>
+        </a>
+        <a href="/listings">
+            <div class="filter">
+                <button><i class="bi bi-fire"></i></button>
+                <p>Trending</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Rooms">
+            <div class="filter">
+                <button><i class="fa-solid fa-house"></i></button>
+                <p>Rooms</p>
+            </div>
+        </a>        
+        <a href="/listings/category?category=Iconic Rooms">
+            <div class="filter">
+                <button><i class="fa-solid fa-city"></i></button>
+                <p name="category">Iconic Rooms</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Mountains">
+        <div class="filter">
+            <button><i class="fa-solid fa-mountain"></i></button>
+            <p>Mountains</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Casties">
+            <div class="filter">
+                <button><i class="fa-solid fa-chess-rook"></i></button>
+                <p>Casties</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Amazing Pools">
+        <div class="filter">
+            <button><i class="fa-solid fa-person-swimming"></i></button>
+            <p>Amazing Pools</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Camping">
+        <div class="filter">
+            <button><i class="fa-solid fa-campground"></i></button>
+            <p>Camping</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Farm">
+        <div class="filter">
+            <button><i class="fa-solid fa-cow"></i></button>
+            <p>Farm</p>
+            </div>
+        </a>
+        <a href="/listings/category?category=Arctic">
+        <div class="filter">
+            <button><i class="fa-solid fa-snowflake"></i></button>
+            <p>Arctic</p>
+        </div>
+        </a>
+        <a href="/listings/category?category=Boat">
+        <div class="filter">
+            <button><i class="fa-solid fa-ship"></i></button>
+            <p>Boat</p>
+        </div>
+        </a>
+        <a href="/listings/category?category=Domes">
+            <div class="filter">
+                <button><i class="fa-solid fa-igloo"></i></button>
+                <p>Domes</p>
+            </div>
+        </a>
+    </div>
+    <div id="price-toggle">
+        <div class="form-check form-switch form-check-reverse">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse">
+            <label class="form-check-label" for="flexSwitchCheckReverse">Display total after taxes</label>
+        </div>
+    </div>
+</div>
+<div class="row  row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-4">
+    <% for(List of allListings) {%>
+        <a href="/listings/<%= List._id %>" class="decoration">
+        <div class="card col listing-card" style="width: 25rem;">
+            <img src="<%= List.image.url %>" class="card-img-top" alt="Image" style="height: 20rem;">
+            <div class="card-img-overlay"></div>
+            <div class="card-body">
+                <p class="card-text">
+                    <b><%= List.title %></b><br>
+                    <span id="price">&#8377;&nbsp;<%= List.price.toLocaleString("en-IN") %> / per night</span>
+                    <span id="GST">&#8377;&nbsp;<%= ((List.price) + List.price * 18/100).toLocaleString("en-IN") %> / per night</span>
+                </p>
+            </div>
+            </div>
+            </a>
+            <% } %>
+            </div>
+            
+            <script>
+                let priceToggle = document.querySelector(".form-check-input");
+            
+                priceToggle.addEventListener("click", () => {
+                    let gsts = document.querySelectorAll("#GST");
+                    let prices = document.querySelectorAll("#price");
+            
+                    for (let gst of gsts) {
+                        if (gst.style.display != "inline") {
+                            gst.style.display = "inline";
+                        } else {
+                            gst.style.display = "none";
+                        }
+                    }
+            
+                    for (let pr of prices) {
+                        if (pr.style.display != "none") {
+                            pr.style.display = "none";
+                        } else {
+                            pr.style.display = "inline";
+                        }
+                    }
+                });
+            </script>
+            

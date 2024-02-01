@@ -1,0 +1,79 @@
+<% layout("layout/boilerplate") %>
+
+<div class="listing-container"> 
+    <div class="text-center ">
+        <div class="col-8 offset-2">
+            <img src="<%= listing.image.url %>" class="img-fluid listing-img" alt="<%= listing.title %> Image">
+        </div>
+    </div>
+    <p>Owned by <i><%= listing.owner.username %></i></p>
+    <div class="listing-details">
+        <h4><%= listing.title %></h4>
+        <p><%= listing.description %></p>
+        <p>&#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+        <p><strong>Location:</strong> <%= listing.location %></p>
+        <p><strong>Country:</strong> <%= listing.country %></p>
+        <p><strong>category:</strong> <%= listing.category %></p>
+        <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+        <div class="btn-container text-center">
+            <a href="<%= listing._id %>/edit" type="button" class="btn btn-primary">Edit</a>
+            <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline-block;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+        <% } %>
+    </div>
+</div>
+<hr>
+<% if(currUser) {%>
+<div class="col-12 offset-2 mb-3">
+    <h3>Leave a Review</h3>
+    <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate class="needs-validation">
+        <div class="mb-3 col-md-8 mt-3"> 
+            <label for="rating" class="form-lable">Rating</label>
+            <fieldset class="starability-slot">
+                <legend>Rating:</legend>
+                <input type="radio" id="no-rate" class="input-no-rate" name="reviews[rating]" value="1" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="reviews[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="reviews[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="reviews[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="reviews[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="reviews[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>  
+        </div>        
+        <div class="mb-3 col-md-8"> 
+            <label for="comment" class="form-lable">comment</label>
+            <textarea name="reviews[comment]" type="text" id="comment" class="form-control" cols="30" rows="5" required></textarea>
+            <div class="invalid-feedback">Please enter some Comment</div>
+        </div> 
+        <button type="submit" class="btn btn-info">Comment</button>
+    </form>
+</div>
+<hr>
+<% } %>
+<div class="col-12 offset-2 mb-3">
+    <p><b>All reviews</b></p>
+    <div class="row">
+            <% for(review of listing.reviews) {%>
+                <div class="card col-4 ms-3 mb-3">
+                    <div class="card-body">
+                        <p class="card-title">@<%= review.author.username %></p>
+                        <p class="card-text starability-result" data-rating="<%= review.rating %>"></p>
+                        <p class="card-text"><%= review.comment %></p>
+                        <% if(currUser && currUser._id.equals(review.author._id)) {%>
+                        <form class="mb-3" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
+                            <button type="submit" class="btn btn-dark btn-sm">Delete</button>
+                        </form>      
+                        <% } %>                  
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
