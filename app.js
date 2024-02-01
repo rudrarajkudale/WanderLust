@@ -21,28 +21,43 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const MongoStore = require('connect-mongo');
+const DBURL = process.env.ATLUSDB_URL;
+
+main()
+  .then(() => {
+    console.log("Connected to MongoDB");
+    console.log(DBURL);
+  })
+  .catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect(DBURL);
+}
 
 const store = MongoStore.create({
-    mongoUrl : 'mongodb://127.0.0.1:27017/wonderland',
-    crypto : {
-        secret : process.env.SECRET
-    },
-    touchAfter : 24*3600
-})
-store.on("error", ()=> {
-    console.log("error occured in MongoStore", err)
-})
+  mongoUrl: DBURL,
+  crypto: {
+    secret: process.env.SECRET
+  },
+  touchAfter: 24 * 3600
+});
+
+store.on("error", (err) => {
+  console.log("Error occurred in MongoStore:", err);
+});
+
 app.use(session({
-    store,
-    resave : false,
-    saveUninitialized : true,
-    secret : process.env.SECRET,
-    cookie : {
-        expires : Date.now() + 7 * 24 * 60 * 60 * 1000,
-        maxAge : 7 * 24 * 60 * 60 * 1000,
-        httpOnly : true
-    }
+  store,
+  resave: false,
+  saveUninitialized: true,
+  secret: process.env.SECRET,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true
+  }
 }));
+
 app.use(flash());
 
 app.use(passport.initialize());
@@ -71,11 +86,6 @@ app.engine('ejs', ejsMate);
 app.use("/listings", listingsRouter ); 
 app.use("/listings/:id/reviews", reviewsRouter )
 app.use("/user", userRouter )
-
-main().catch(err => console.log(err));
-async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/wonderland');
-}
 
 app.get("/hii", (req,res) => {
     let { name = "antina"} = req.cookies;

@@ -3,12 +3,15 @@ const initdata = require("./data")
 const listings = require("../modules/listings.js");
 const review = require ("../modules/reviews.js");
 
-main()
-.then(console.log("connected to db"))
-.catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/wonderland');
-}
+    await mongoose.connect('mongodb://127.0.0.1:27017/Wanderlust');
+  }
+  
+  main()
+    .then(() => {
+      console.log("Connected to MongoDB");
+    })
+    .catch((err) => console.log(err));
 
 const initDB = async () => {
     await listings.deleteMany({});
