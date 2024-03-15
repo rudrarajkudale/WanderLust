@@ -87,10 +87,9 @@ app.use("/listings", listingsRouter );
 app.use("/listings/:id/reviews", reviewsRouter )
 app.use("/user", userRouter )
 
-app.get("/hii", (req,res) => {
-    let { name = "antina"} = req.cookies;
-    res.send(`hii ${name}`);
-})
+app.get("/", (req,res) => {
+    res.redirect("/listings");
+});
 
 app.all("*",(req,res, next) => {
     next(new expressError(400 , "page not found"));
