@@ -488,6 +488,9 @@ figure.snip1206.hover figcaption p {
 
   
 @media (max-width: 480px) {
+    .min-vh-75 {
+        min-height: 72vh !important;
+    }
     body{
         overflow-x: hidden;
     }

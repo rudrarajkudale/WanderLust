@@ -18,7 +18,7 @@ module.exports.renderAdmin = async(req, res) => {
     const totalUsers = await User.countDocuments();
     const totalListings = await Listing.countDocuments();
     const totalReviews = await Review.countDocuments();
-    res.render("user/AdminDashboard.ejs", {listings, users: usersWithDetails, totalListings, totalReviews, totalUsers})
+    res.render("user/admindashboard.ejs", {listings, users: usersWithDetails, totalListings, totalReviews, totalUsers})
 }
 
 module.exports.search = async (req, res) => {
