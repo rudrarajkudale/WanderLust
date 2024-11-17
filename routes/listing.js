@@ -28,6 +28,6 @@ router.route("/:id")
 
 //edit
 router.get("/:id/edit" ,isLoggedin,isOwner, asyncWrap (listingController.RenderEditForm));
-
+ 
 
 module.exports = router;

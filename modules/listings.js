@@ -43,7 +43,7 @@ const listingSchema = Schema(
             ref : "User"
           },
     }
-)
+) 
 
 
 listingSchema.post("findOneAndDelete", async(listing) => {

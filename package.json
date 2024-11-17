@@ -10,7 +10,7 @@
   },
   "author": "Rudra",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": { 
     "axios": "^1.7.7",
     "bootstrap-icons": "^1.11.3",
     "cloudinary": "^1.41.3",

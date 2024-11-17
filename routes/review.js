@@ -10,4 +10,4 @@ router.post("/", isLoggedin ,validatereview, asyncWrap (reviewController.postRev
 //reviews delete
 router.delete("/:reviewId",isLoggedin,isReviewAuthor, asyncWrap(reviewController.destroyReview));
 
-module.exports = router ;
+module.exports = router ; 

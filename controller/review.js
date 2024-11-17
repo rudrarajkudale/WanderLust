@@ -26,4 +26,4 @@ module.exports.destroyReview = async (req, res) => {
     } else {
         res.redirect(`/listings/${id}`);
     }
-}
+} 

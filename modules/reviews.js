@@ -9,7 +9,7 @@ const reviewSchema = Schema(
             required : true,
             min : 1,
             max : 5
-        },
+        }, 
         created_at : {
             type : Date,
             default : Date.now()

@@ -67,4 +67,4 @@ module.exports.destroy = async (req, res) => {
 
     req.flash("success", "User and all associated data deleted successfully.");
     res.redirect("/admin");
-};
+};  

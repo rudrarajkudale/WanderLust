@@ -13,4 +13,4 @@ router.get("/search", isLoggedin, isAdmin, asyncWrap(adminController.search));
 
 router.delete("/:id", isLoggedin, isAdmin,asyncWrap (adminController.destroy));
 
-module.exports = router ;
+module.exports = router ; 

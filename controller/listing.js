@@ -114,7 +114,7 @@ module.exports.destroy = async (req,res) => {
         res.redirect('/listings');
     }
 }
-
+ 
 module.exports.search = async (req, res) => {
     try {
         const searchQuery = req.query.search;

@@ -9,7 +9,7 @@ const listingSchema = Joi.object({
         location: Joi.string().required(),
         country: Joi.string().required(),
 }).required()
-})
+}) 
 
 const reviewSchema = Joi.object({
 reviews : Joi.object({
