@@ -5,7 +5,8 @@ const {isLoggedin, isOwner, validatelisting} = require("../middleware.js");
 const listingController = require("../controller/listing.js");
 const multer = require("multer");
 const {storage} = require("../cloudConfig.js")
-const upload = multer({ storage })
+const upload = multer({ storage });
+
 
 router.route("/")
 .get(asyncWrap (listingController.index))

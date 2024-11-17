@@ -1,20 +1,20 @@
 <% layout("layout/boilerplate") %>
 
 <div class="listing-container"> 
-    <div class="text-center ">
+    <div class="text-center">
         <div class="col-8 offset-2">
             <img src="<%= listing.image.url %>" class="img-fluid listing-img" alt="<%= listing.title %> Image">
         </div>
+        <p>Owned by <i><%= listing.owner.username %></i></p>
     </div>
-    <p>Owned by <i><%= listing.owner.username %></i></p>
     <div class="listing-details">
-        <h4><%= listing.title %></h4>
+        <h4 class="h3-style"><%= listing.title %></h4>
         <p><%= listing.description %></p>
-        <p>&#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+        <p><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+        <p><strong>category:</strong> <%= listing.category %></p>
         <p><strong>Location:</strong> <%= listing.location %></p>
         <p><strong>Country:</strong> <%= listing.country %></p>
-        <p><strong>category:</strong> <%= listing.category %></p>
-        <% if(currUser && currUser._id.equals(listing.owner._id)) {%>
+        <% if((currUser && currUser._id.equals(listing.owner._id)) || (currUser && currUser._id.equals(admin))) {%>
         <div class="btn-container text-center">
             <a href="<%= listing._id %>/edit" type="button" class="btn btn-primary">Edit</a>
             <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline-block;">
@@ -26,11 +26,11 @@
 </div>
 <hr>
 <% if(currUser) {%>
-<div class="col-12 offset-2 mb-3">
-    <h3>Leave a Review</h3>
+<div class="col-12 offset-2 mb-3 review-div">
+    <h3 class="h3-style">Leave a Review</h3>
     <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate class="needs-validation">
         <div class="mb-3 col-md-8 mt-3"> 
-            <label for="rating" class="form-lable">Rating</label>
+            <label for="rating" class="form-lable"></label>
             <fieldset class="starability-slot">
                 <legend>Rating:</legend>
                 <input type="radio" id="no-rate" class="input-no-rate" name="reviews[rating]" value="1" checked aria-label="No rating." />
@@ -47,7 +47,7 @@
             </fieldset>  
         </div>        
         <div class="mb-3 col-md-8"> 
-            <label for="comment" class="form-lable">comment</label>
+            <label for="comment" class="form-lable">Comment:</label>
             <textarea name="reviews[comment]" type="text" id="comment" class="form-control" cols="30" rows="5" required></textarea>
             <div class="invalid-feedback">Please enter some Comment</div>
         </div> 
@@ -55,17 +55,19 @@
     </form>
 </div>
 <hr>
+<br>
 <% } %>
 <div class="col-12 offset-2 mb-3">
-    <p><b>All reviews</b></p>
+    <h3 class="h3-style">All Reviews</h3>
+    <br>
     <div class="row">
             <% for(review of listing.reviews) {%>
-                <div class="card col-4 ms-3 mb-3">
+                <div class="card col-4 ms-3 mb-3 review-div">
                     <div class="card-body">
                         <p class="card-title">@<%= review.author.username %></p>
                         <p class="card-text starability-result" data-rating="<%= review.rating %>"></p>
                         <p class="card-text"><%= review.comment %></p>
-                        <% if(currUser && currUser._id.equals(review.author._id)) {%>
+                        <% if((currUser && currUser._id.equals(review.author._id)) || (currUser && currUser._id.equals(admin))) {%>
                         <form class="mb-3" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post">
                             <button type="submit" class="btn btn-dark btn-sm">Delete</button>
                         </form>      
@@ -76,4 +78,33 @@
         </div>
     </div>
 </div>
+<hr>
+<br>
+<div class="container">
+    <h3><strong class="h3-style">Location:</strong> &nbsp;<%= listing.location %> </h3>
+    <h3><strong class="h3-style">Country:</strong> &nbsp;<%= listing.country %></h3> 
 
+    <% if (coordinates) { %>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        <script>
+            const coordinates = <%- JSON.stringify(coordinates) %>;
+            console.log("Coordinates:", coordinates);
+
+            if (coordinates && coordinates.lat && coordinates.lng) {
+                const map = L.map('map').setView([coordinates.lat, coordinates.lng], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                L.marker([coordinates.lat, coordinates.lng]).addTo(map)
+                    .bindPopup('<b><%= listing.location %>, <%= listing.country %></b>')
+                    .openPopup();
+            } else {
+                console.log("Invalid coordinates:", coordinates);
+            }
+        </script>
+    <% } else { %>
+        <p>Location information not available.</p>
+    <% } %>
+</div>

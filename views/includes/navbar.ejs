@@ -1,25 +1,3 @@
-<style>
-  .fa-magnifying-glass
-  {
-    display: inline !important;
-  }
-  .search_btn
-  {
-    background-color: #fe424d;
-    border-radius: 2rem;
-    padding: 0 0.7rem;
-  }
-  .search_btn:hover
-  {
-    background-color: #fe424d !important;
-  }
-  .search-inp
-  {
-    border-radius: 2rem;
-    padding: 0.5rem 3rem !important;
-  }
-</style>
-
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="/listings"><i class="bi bi-compass"></i></a>
@@ -28,7 +6,7 @@
       </button>
       <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings">Welcome &nbsp;<%= currUser ? currUser.username : '' %></a>
         </div>
         <nav class="navbar-nav ms-auto">
           <div class="container-fluid">
@@ -39,14 +17,13 @@
           </div>
         </nav>
         <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Airbnb your home</a>
-          <% if(!currUser) {%>
-          <a class="nav-link" href="/user/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/user/login"><b>Login</b></a>
-          <% } %>
-          <% if(currUser) {%>
-          <a class="nav-link" href="/user/logout"><b>Logout</b></a>
-          <% } %>
+          <a class="nav-link nav-title" href="/listings/new">Add Place</a>       
+          <% if (!currUser) { %>
+            <a class="nav-link sign-btn" href="/user/signup"><b>Sign up</b></a>
+            <a class="nav-link log-btn" href="/user/login"><b>Login</b></a>
+        <% } else { %>
+            <a class="nav-link log-btn" href="/user/logout"><b>Logout</b></a>
+        <% } %>
         </div>
       </div>
     </div>

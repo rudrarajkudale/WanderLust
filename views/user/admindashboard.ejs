@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust</title>
+    <link rel="icon" href="logo.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/rating.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/listings"><i class="bi bi-compass"></i></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/listings">Welcome &nbsp;<%= currUser ? currUser.username : '' %></a>
+                </div>
+                <nav class="navbar-nav ms-auto">
+                    <div class="container-fluid">
+                        <form class="d-flex" role="search" action="/admin/search" method="get">
+                        <input class="form-control me-2 search-inp" type="search" name="search" placeholder="Search User" aria-label="Search">
+                        <button class="btn search_btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>&nbsp;&nbsp;Search</button>
+                        </form>          
+                    </div>
+                </nav>
+                <div class="navbar-nav ms-auto">
+                    <% if (currUser) { %>
+                        <a class="nav-link log-btn" href="/user/logout"><b>Logout</b></a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <%- include("../includes/flash.ejs") %>
+    <div class="admin-dashboard">
+        <h2 class="h3-style admin-h3">Total Data</h2>
+        <div class="Total">
+            <h3><a href="#users">Total Users:<span><%= totalUsers %></span></a></h3>
+            <h3><a href="#listings">Total Places:<span><%= totalListings %></span></a></h3>
+            <h3><a href="#reviews">Total Reviews:<span><%= totalReviews %></span></a></h3>
+        </div><br>    
+        <hr>  
+        <h2 class="h3-style admin-h3">Users Data</h2>
+        <div class="container custom-table-wrapper">
+            <table class="table table-bordered table-hover custom-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Places</th>
+                        <th>Reviews</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let user of users) { %>
+                        <tr>
+                            <td><%= user.username %></td>
+                            <td><%= user.email %></td>
+                            <td><%= user.AllListings %></td>
+                            <td><%= user.AllReviews %></td>
+                            <td>
+                                <form method="post" action="/admin/<%= user._id %>?_method=DELETE" class="delete-form">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div><br>   
+        <hr>
+        <h3 class="h3-style admin-h3">Listings Data</h3>
+        <div class="container custom-table-wrapper">
+            <table class="table table-bordered table-hover custom-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Owner</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Location</th>
+                        <th>Country</th>
+                        <th>Reviews</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(listing of listings) { %>
+                        <tr>
+                            <td><%= listing.title %></td>
+                            <td><%= listing.owner.username %></td>
+                            <td><%= listing.category %></td>
+                            <td>&#8377; <%= listing.price.toLocaleString("en-IN") %></td>
+                            <td><%= listing.location %></td>
+                            <td><%= listing.country %></td>
+                            <td><%= listing.reviews.length %></td>
+                            <td>
+                                <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary">Edit</a>
+                            </td>
+                            <td>
+                                <form method="post" action="/listings/<%= listing._id %>?_method=DELETE" class="delete-form">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div><br>           
+        <hr>  
+        <h3 class="h3-style admin-h3">Reviews Data</h3>
+        <div class="container custom-table-wrapper">
+            <table class="table table-bordered table-hover custom-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Review</th>
+                        <th>Username</th>
+                        <th>Rating</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let listing of listings) { %>
+                        <% if (listing.reviews.length > 0) { %>
+                            <% for (let review of listing.reviews) { %>
+                                <tr>
+                                    <td><%= listing.title %></td>
+                                    <td><%= review.comment %></td>
+                                    <td>@<%= review.author.username %></td>
+                                    <td>
+                                        <p class="starability-result" data-rating="<%= review.rating %>"></p>
+                                    </td>
+                                    <td>
+                                        <% if ((currUser && String(currUser._id) === String(review.author._id)) || (currUser && String(currUser._id) === String(admin))) { %>
+                                            <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="post" class="delete-form">
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                </tbody>
+            </table>
+        </div><br>                  
+    </div>
+    <script src="https://kit.fontawesome.com/247ce08748.js" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+</body>
+</html>

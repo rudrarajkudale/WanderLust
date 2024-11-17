@@ -20,13 +20,13 @@ const User = require("./modules/user.js");
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const adminRouter = require("./routes/admin.js");
 const MongoStore = require('connect-mongo');
 const DBURL = process.env.ATLUSDB_URL;
 
 main()
   .then(() => {
     console.log("Connected to MongoDB");
-    console.log(DBURL);
   })
   .catch((err) => console.log(err));
 
@@ -70,10 +70,13 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
+    res.locals.admin = process.env.ADMIN_ID;
+    res.locals.admin_username = process.env.ADMIN_USERNAME;
+    res.locals.adminPassword = process.env.ADMIN_PASSWORD;
+    res.locals.user_username = process.env.USER_USERNAME;
+    res.locals.userPassword = process.env.USER_PASSWORD;
     next();
 })
-
-
 
 app.use(cookieParser());
 app.use(methodOverride("_method"));
@@ -86,16 +89,16 @@ app.engine('ejs', ejsMate);
 app.use("/listings", listingsRouter ); 
 app.use("/listings/:id/reviews", reviewsRouter )
 app.use("/user", userRouter )
+app.use("/admin", adminRouter )
 
-app.get("/hii", (req,res) => {
-    let { name = "antina"} = req.cookies;
-    res.send(`hii ${name}`);
+app.get("/", (req,res) => {
+    res.redirect("/listings");
 })
 
 app.all("*",(req,res, next) => {
-    next(new expressError(400 , "page not found"));
+    next(new expressError(404 , "page not found"));
 });
-app.use((err,req,res,next) => {
+app.use((err,req,res,next) => { 
     let {statusCode = 500, message = "Something went wrong"} = err;
     res.status(statusCode).render("listings/error.ejs", {message});
 });

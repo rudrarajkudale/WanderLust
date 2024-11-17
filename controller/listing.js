@@ -1,4 +1,5 @@
 const Listing = require("../modules/listings.js");
+const axios = require('axios');
 
 module.exports.index = async (req,res) => {
     const allListings = await Listing.find({});
@@ -22,17 +23,55 @@ module.exports.RenderEditForm = async (req,res) => {
     res.render("listings/edit.ejs", { listing, OrginalUrl });
 }
 
-module.exports.Show = async (req,res) => {
+// module.exports.Show = async (req,res) => {
+//     const id = req.params.id;
+//     const listing = await Listing.findById(id).populate({path : "reviews", populate : {path : "author"}})
+//     .populate("owner");
+//     if(!listing)
+//     {
+//         req.flash("error", "listing you are requested for does not exists");
+//         res.redirect("/listings");
+//     }
+//     res.render("listings/show.ejs", { listing });
+// }
+
+module.exports.Show = async (req, res) => {
     const id = req.params.id;
-    const listing = await Listing.findById(id).populate({path : "reviews", populate : {path : "author"}})
-    .populate("owner");
-    if(!listing)
-    {
-        req.flash("error", "listing you are requested for does not exists");
-        res.redirect("/listings");
+    const listing = await Listing.findById(id)
+        .populate({ path: "reviews", populate: { path: "author" } })
+        .populate("owner");
+
+    if (!listing) {
+        req.flash("error", "Listing you are requested for does not exist");
+        return res.redirect("/listings");
     }
-    res.render("listings/show.ejs", { listing });
-}
+
+    // Map Logic
+    const location = listing.location;
+    const country = listing.country;
+    let coordinates = { lat: null, lon: null }; // Define coordinates outside try-catch
+    try {
+        const OPEN_CAGE_API_KEY = process.env.MAP_APIKEY;
+        const response = await axios.get('https://api.opencagedata.com/geocode/v1/json', {
+            params: {
+                q: `${location}, ${country}`,
+                key: OPEN_CAGE_API_KEY
+            }
+        });
+        coordinates = response.data.results.length > 0
+            ? response.data.results[0].geometry
+            : { lat: null, lon: null };
+    } catch (error) {
+        console.error('Error fetching coordinates:', error);
+        req.flash("error", "Failed to fetch coordinates for the location");
+    }
+
+    console.log(coordinates);
+    res.render("listings/show.ejs", {
+        listing, coordinates
+    });
+};
+
 
 module.exports.Create = async (req,res) => {
     const List = new Listing(req.body.listings);
@@ -67,8 +106,13 @@ module.exports.edit = async (req,res) => {
 module.exports.destroy = async (req,res) => {
     const id = req.params.id;
     let deletelist = await Listing.findByIdAndDelete(id);
+    const referer = req.get('Referer');
     req.flash("success", "listing deleted");
-    res.redirect("/listings");
+    if (referer && referer.includes('/admin')) {
+        res.redirect('/admin');
+    } else {
+        res.redirect('/listings');
+    }
 }
 
 module.exports.search = async (req, res) => {

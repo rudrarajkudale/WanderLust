@@ -7,7 +7,7 @@ const userSchema = Schema(
         email : {
             type : String,
             require : true
-        }
+        },
     }
 );
 

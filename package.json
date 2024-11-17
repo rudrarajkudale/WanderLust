@@ -11,6 +11,7 @@
   "author": "Rudra",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
     "bootstrap-icons": "^1.11.3",
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
@@ -33,6 +34,5 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0"
   },
-  "description": "MY FULLSTACK PROJECT",
-  "devDependencies": {}
+  "description": "MY FULLSTACK PROJECT"
 }

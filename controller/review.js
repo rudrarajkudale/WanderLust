@@ -19,6 +19,11 @@ module.exports.destroyReview = async (req, res) => {
 
     await Listing.findByIdAndUpdate(id, { $pull: { review: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    const referer = req.get('Referer');
     req.flash("success", "comment deleted");
-    res.redirect(`/listings/${id}`);
+    if (referer && referer.includes('/admin')) {
+        res.redirect('/admin');
+    } else {
+        res.redirect(`/listings/${id}`);
+    }
 }
