@@ -1,7 +1,7 @@
 <% layout("layout/boilerplate") %>
 
 <div class="row">
-    <div class="col-8 offset-2">
+    <div class="col-8 offset-2 p-2">
         <br><h3>Edit Listings</h3><br>
         <form action="/listings/<%=listing._id%>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
             <div class="mb-3"> 
@@ -24,19 +24,19 @@
                     <input name="listings[image]" type="file" class="form-control" />
                 </div>
                 <div class="mb-3 col-md-4"> 
-                    <label for="categorySelect">Category:</label>
-                <select id="categorySelect" name="listings[category]" required>
-                    <option value="Rooms" <%= listing.category === "Rooms" ? "selected" : "" %>>Rooms</option>
-                    <option value="Iconic Rooms" <%= listing.category === "Iconic Rooms" ? "selected" : "" %>>Iconic Rooms</option>
-                    <option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>Mountains</option>
-                    <option value="Castles" <%= listing.category === "Castles" ? "selected" : "" %>>Castles</option>
-                    <option value="Amazing Pools" <%= listing.category === "Amazing Pools" ? "selected" : "" %>>Amazing Pools</option>
-                    <option value="Camping" <%= listing.category === "Camping" ? "selected" : "" %>>Camping</option>
-                    <option value="Farm" <%= listing.category === "Farm" ? "selected" : "" %>>Farm</option>
-                    <option value="Arctic" <%= listing.category === "Arctic" ? "selected" : "" %>>Arctic</option>
-                    <option value="Boat" <%= listing.category === "Boat" ? "selected" : "" %>>Boat</option>
-                    <option value="Domes" <%= listing.category === "Domes" ? "selected" : "" %>>Domes</option>
-                </select>
+                    <label for="category" class="form-label">Category:</label>
+                    <select name="listings[category]" class="form-select" required>
+                        <option value="Rooms" <%= listing.category === "Rooms" ? "selected" : "" %>>Rooms</option>
+                        <option value="Iconic Rooms" <%= listing.category === "Iconic Rooms" ? "selected" : "" %>>Iconic Rooms</option>
+                        <option value="Mountains" <%= listing.category === "Mountains" ? "selected" : "" %>>Mountains</option>
+                        <option value="Castles" <%= listing.category === "Castles" ? "selected" : "" %>>Castles</option>
+                        <option value="Amazing Pools" <%= listing.category === "Amazing Pools" ? "selected" : "" %>>Amazing Pools</option>
+                        <option value="Camping" <%= listing.category === "Camping" ? "selected" : "" %>>Camping</option>
+                        <option value="Farm" <%= listing.category === "Farm" ? "selected" : "" %>>Farm</option>
+                        <option value="Arctic" <%= listing.category === "Arctic" ? "selected" : "" %>>Arctic</option>
+                        <option value="Boat" <%= listing.category === "Boat" ? "selected" : "" %>>Boat</option>
+                        <option value="Domes" <%= listing.category === "Domes" ? "selected" : "" %>>Domes</option>
+                    </select>
                 <div class="invalid-feedback">Please select a category</div>
             </div>
             </div>

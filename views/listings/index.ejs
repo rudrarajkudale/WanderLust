@@ -20,7 +20,7 @@
                     <p>Rooms</p>
                 </div>
             </a>        
-            <a href="/listings/category?category=Iconic Rooms">
+            <a href="/listings/category?category=IconicRooms">
                 <div class="filter">
                     <button><i class="fa-solid fa-city"></i></button>
                     <p name="category">Iconic Rooms</p>
@@ -32,10 +32,10 @@
                 <p>Mountains</p>
                 </div>
             </a>
-            <a href="/listings/category?category=Casties">
+            <a href="/listings/category?category=Castles">
                 <div class="filter">
                     <button><i class="fa-solid fa-chess-rook"></i></button>
-                    <p>Casties</p>
+                    <p>Castles</p>
                 </div>
             </a>
             <a href="/listings/category?category=Amazing Pools">
@@ -89,17 +89,16 @@
     </div>
     <div class="mt-4 index-cards">
         <% for(List of allListings) {%>
-            <figure class="snip1206">
-                <img src="<%= List.image.url %>" alt="<%= List.title %>"/>
-                <figcaption>
-                    <p class="card-text">
-                        <b class="listing-title"><%= List.title %></b><br>
-                        <span id="price">&#8377;&nbsp;<%= List.price.toLocaleString("en-IN") %> / per day</span>
-                        <span id="GST">&#8377;&nbsp;<%= ((List.price) + List.price * 18/100).toLocaleString("en-IN") %> / per night</span>
+            <a href="/listings/<%= List._id %>">
+                <div class="icard" style="width: 18rem;">
+                    <img src="<%= List.image.url %>" class="card-img-top" alt="<%= List.title %>">
+                    <h5 class="icard-title"><%= List.title %></h5>
+                    <p class="icard-text"><span id="price">&#8377; <%= List.price.toLocaleString("en-IN") %></span>
+                        <span id="GST">&#8377; <%= ((List.price) + List.price * 18 / 100).toLocaleString("en-IN") %></span> 
+                        / per day
                     </p>
-                </figcaption>
-                <a href="/listings/<%= List._id %>"></a>
-            </figure>
+                </div>  
+            </a>            
         <% } %>
     </div>
 </div>

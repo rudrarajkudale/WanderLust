@@ -145,55 +145,68 @@ a span{
     margin-top: 3rem !important;
     margin-bottom: 3rem;
 }
-.listing-card{
-    border : none !important;
-    margin-bottom: 2rem;
+
+.index-cards {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+    gap: 1.5rem;
 }
 
-.card-img-top
-{
-    border-radius: 1rem !important;
-    width: 100% !important;
-    object-fit: cover !important;
+.index-cards a{
+    text-decoration: none;
 }
-.card-body
-{
-    padding: 0 !important;
+
+
+.icard {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 24.5rem !important;
+    height: 20rem !important;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.card-text 
-{
-    font-weight: 400 !important;
+
+.card-img-top {
+    width: 100%;
+    height: 16rem;
+    object-fit: cover;
+    border-bottom: 2px solid #f0f0f0;
 }
-.listing-title{
-    font-size: 1.5rem;
-    color: red ;
+
+.icard-title {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    margin-top: 3px;
+    padding-left: 0.3rem;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    color: #fe424d;
 }
+
+.icard-text {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+    padding-left: 0.3rem;
+}
+
 #price
 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: medium;
     display: inline;
+    color: #fe424d;
 }
 #GST
 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #fe424d;
     display: none;
 }
 
 .decoration{
-
     text-decoration: none;
 }
-.card-img-overlay
-{
-    opacity: 0;
-}
-.card-img-overlay:hover
-{
-    opacity: 0.2;
-    background-color: white;
-}
-
 .contain-filter{
     display: flex;
     align-items: center;
@@ -378,114 +391,6 @@ a span{
 {
     margin-top: -0.5rem;
 }
-
-.index-cards {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-figure.snip1206 {
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-    color: #000000;
-    text-align: center;
-    border-radius: 1rem;
-}
-
-figure.snip1206 img {
-    opacity: 1;
-    width: 25rem;
-    height: 20rem;
-    object-fit: cover;
-    -webkit-transition: opacity 0.35s;
-    transition: opacity 0.35s;
-}
-
-figure.snip1206:after {
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    content: '';
-    opacity: 0.75;
-    -webkit-transform: skew(-45deg) scaleX(0);
-    transform: skew(-45deg) scaleX(0);
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-}
-
-figure.snip1206 figcaption {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    z-index: 1;
-    word-wrap: break-word;   /* Ensures words wrap correctly */
-    overflow-wrap: break-word; /* Ensures long words break and stay inside box */
-}
-
-figure.snip1206 h2,
-figure.snip1206 p {
-    margin: 0;
-    width: 100%;
-    opacity: 0;
-}
-
-figure.snip1206 h2 {
-    padding: 0 30px;
-    display: inline-block;
-    font-weight: 400;
-    text-transform: uppercase;
-}
-
-figure.snip1206 p {
-    padding: 0 50px;
-    font-size: 0.8em;
-    font-weight: 500;
-}
-
-figure.snip1206 a {
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    z-index: 1;
-}
-
-figure.snip1206:hover:after,
-figure.snip1206.hover:after {
-    -webkit-transform: skew(-45deg) scaleX(1);
-    transform: skew(-45deg) scaleX(1);
-    transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-figure.snip1206:hover figcaption h2,
-figure.snip1206.hover figcaption h2,
-figure.snip1206:hover figcaption p,
-figure.snip1206.hover figcaption p {
-    -webkit-transform: translate3d(0%, 0%, 0);
-    transform: translate3d(0%, 0%, 0);
-    -webkit-transition-delay: 0.2s;
-    transition-delay: 0.2s;
-}
-
-figure.snip1206:hover figcaption h2,
-figure.snip1206.hover figcaption h2 {
-    opacity: 1;
-}
-
-figure.snip1206:hover figcaption p,
-figure.snip1206.hover figcaption p {
-    opacity: 0.7;
-}
-
   
 @media (max-width: 480px) {
     .min-vh-75 {
